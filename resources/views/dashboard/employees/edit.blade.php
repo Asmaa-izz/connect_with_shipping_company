@@ -1,16 +1,18 @@
 @extends('dashboard.layouts.master')
 
-@section('title', 'الملف الشحصي')
+@section('title', "تعديل مدرس")
 
 @section('content')
 
     @component('dashboard.commonComponents.breadcrumb')
         @slot('li_1', "الرئيسية")
         @slot('li_1_link', "/dashboard")
-        @slot('page_now', 'الملف الشحصي')
+        @slot('li_2', "جميع المدرسين")
+        @slot('li_2_link', "/dashboard/employees")
+        @slot('page_now', "تعديل مدرس")
     @endcomponent
 
-    <form action="{{ route('employees.update', $user->id) }}" method="POST">
+    <form action="{{ route('employees.update', $employee->id) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="row">
@@ -23,14 +25,14 @@
                         @endif
 
                         <div class="card-title d-flex justify-content-between align-items-center my-3">
-                            <h4>الملف الشحصي</h4>
+                            <h4>تعديل مدرس</h4>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="name" class="control-label required">الاسم:</label>
+                                <label for="name" class="control-label required">اسم المدرس:</label>
                                 <input type="text" class="form-control" name="name" id="name" placeholder="أدخل الاسم"
-                                       value="{{ $user->name }}" required>
+                                       value="{{ $employee->name }}" required>
                                 @error('name')
                                 <small class="text-danger">{{ $message }}</small>
                                 @enderror
@@ -42,19 +44,8 @@
                                 <label for="email" class="control-label required">البريد الإلكتروني:</label>
                                 <input type="email" class="form-control bg-light" name="email" id="email"
                                        placeholder="أدخل البريد الإلكتروني"
-                                       value="{{ $user->email  }}" disabled>
+                                       value="{{ $employee->email  }}" disabled>
                                 @error('email')
-                                <small class="text-danger">{{ $message }}</small>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <label for="role" class="control-label required">الصلاحية:</label>
-                                <input type="text" class="form-control bg-light" name="role" id="role"
-                                       value="{{ $user->roles->first()->name  }}" disabled>
-                                @error('role')
                                 <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>

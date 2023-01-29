@@ -27,22 +27,22 @@ class SettingSeeder extends Seeder
 
         Setting::firstOrCreate(['key' =>'title_page'], [
             'key' => 'title_page',
-            'value' => 'ثانوية قريش بجدة',
+            'value' => 'نظام شحن',
         ]);
 
         Setting::firstOrCreate(['key' =>'title_header'], [
             'key' => 'title_header',
-            'value' => 'ثانوية قريش بجدة',
+            'value' => 'نظام شحن',
         ]);
 
         Setting::firstOrCreate(['key' =>'title_main'], [
             'key' => 'title_main',
-            'value' => 'نظام متابعة الطلاب',
+            'value' => 'نظام شحن',
         ]);
 
         Setting::firstOrCreate(['key' =>'text_main'], [
             'key' => 'text_main',
-            'value' => 'شرح قصير عن النظام يضاف من لوحة التحكم',
+            'value' => 'نظام تعاقد مع أكثر من شركة شحن',
         ]);
 
         Setting::firstOrCreate(['key' =>'img_home'], [

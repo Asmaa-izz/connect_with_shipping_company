@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\SettingController;
@@ -28,8 +29,9 @@ Route::middleware('auth:web')->prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 
-    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
-    Route::post('/settings', [SettingController::class, 'store'])->name('settings.update');
+    Route::resource('/settings', SettingController::class)->only(['index', 'update']);
     Route::resource('/roles', RolesController::class)->only(['index', 'store', 'update', 'destroy']);
+
+    Route::resource('/employees', EmployeesController::class);
 
 });
