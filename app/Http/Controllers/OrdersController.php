@@ -17,27 +17,43 @@ class OrdersController extends Controller
         if ($request->ajax()) {
             $search = $request->get('s');
 
-            $orders = Order::when($search, function ($querySearch, $search) {
-                $querySearch->where(function ($q) use ($search) {
-                    $q->where('customer_name', 'LIKE', '%'.$search.'%');
-                });
-            })->get();
+            $orders = Order::with('employee')
+                ->when($search, function ($querySearch, $search) {
+                    return $querySearch
+                        ->whereHas('employee', function ($q) use ($search) {
+                            return $q->where('name', 'LIKE', '%' . $search . '%');
+                        })
+                        ->where(function ($q) use ($search) {
+                            $q->where('customer_name', 'LIKE', '%' . $search . '%')->where('number', 'LIKE', '%' . $search . '%');
+                        });
+                })->get();
 
             return \Yajra\DataTables\DataTables::of($orders)
                 ->addColumn(
-                    'name',
+                    'number',
                     function (Order $order) {
-                        return '<a href="/dashboard/orders/'.$order->id.'" class="btn btn-link">'.$order->number.'</a>';
+                        return '<a href="/dashboard/orders/' . $order->id . '" class="btn btn-link">' . $order->number . '</a>';
+                    })
+                ->addColumn(
+                    'employee',
+                    function (Order $order) {
+                        $employee = $order->employee;
+                        return '<a href="/dashboard/employees/' . $employee->id . '" class="btn btn-link">' . $employee->name . '</a>';
+                    })
+                ->addColumn(
+                    'status',
+                    function (Order $order) {
+                        return 'done';
                     })
                 ->addColumn(
                     'action',
                     function (Order $order) {
-                        return '<a href="/dashboard/orders/'.$order->id.'/edit" class="btn btn-primary">تعديل </a>
-                                <button type="button" onClick="deleteProduct('.$order->id.')" class="btn btn-danger">
+                        return '<a href="/dashboard/orders/' . $order->id . '/edit" class="btn btn-primary">تعديل </a>
+                                <button type="button" onClick="deleteProduct(' . $order->id . ')" class="btn btn-danger">
                                 حذف
                                 </button>';
                     })
-                ->rawColumns(['name','action'])->make(true);
+                ->rawColumns(['number', 'customer_name', 'employee', 'status', 'action'])->make(true);
         } else {
             return view('dashboard.orders.index');
         }
@@ -72,6 +88,7 @@ class OrdersController extends Controller
         $order->number = $request->number;
         $order->customer_name = $request->customer_name;
         $order->customer_phone = $request->customer_phone;
+        $order->customer_phone_other = $request->customer_phone_other;
         $order->city_id = $request->city_id;
         $order->area_id = $request->area_id;
         $order->neighborhood_id = $request->neighborhood_id;
@@ -88,6 +105,7 @@ class OrdersController extends Controller
         $this->authorize('access_order');
         return view('dashboard.orders.show', [
             'order' => $order,
+
         ]);
     }
 
@@ -95,7 +113,8 @@ class OrdersController extends Controller
     {
         $this->authorize('update_order');
         return view('dashboard.orders.edit', [
-            'order' => $order
+            'order' => $order->load('area', 'neighborhood'),
+            'cities' => City::all(),
         ]);
     }
 
@@ -103,15 +122,26 @@ class OrdersController extends Controller
     {
         $this->authorize('update_order');
         $request->validate([
-            'name' => 'required',
+            'number' => 'required',
+            'customer_name' => 'required',
+            'customer_phone' => 'required',
+            'city_id' => 'required',
+            'area_id' => 'required',
+            'neighborhood_id' => 'required',
+            'amount' => 'required',
+            'product_details' => 'required',
         ]);
 
-        $order->name = $request->name;
-        if($request->password) {
-            $order->password = Hash::make($request->password);
-        }
-
-        $order->update();
+        $order->number = $request->number;
+        $order->customer_name = $request->customer_name;
+        $order->customer_phone = $request->customer_phone;
+        $order->customer_phone_other = $request->customer_phone_other;
+        $order->city_id = $request->city_id;
+        $order->area_id = $request->area_id;
+        $order->neighborhood_id = $request->neighborhood_id;
+        $order->amount = $request->amount;
+        $order->product_details = $request->product_details;
+        $order->save();
 
         return redirect()->route('orders.index');
     }

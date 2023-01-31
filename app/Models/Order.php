@@ -12,7 +12,7 @@ class Order extends Model
 
     protected $guarded = ['id'];
 
-    public function emplouee(): BelongsTo
+    public function employee(): BelongsTo
     {
         return $this->belongsTo(User::class, 'employee_id');
     }

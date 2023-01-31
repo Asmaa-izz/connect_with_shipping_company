@@ -60,7 +60,10 @@
                 serverSide: true,
                 ajax: "{{ route('orders.index') }}",
                 columns: [
-                    {"data": "name"},
+                    {"data": "number"},
+                    {"data": "customer_name"},
+                    {"data": "employee"},
+                    {"data": "status"},
                     {"data": "action"},
                 ],
             });
