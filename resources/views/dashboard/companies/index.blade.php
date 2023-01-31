@@ -29,6 +29,7 @@
                         <thead>
                         <tr>
                             <th>الاسم</th>
+                            <th>المناطق</th>
                             <th>العمليات</th>
                         </tr>
                         </thead>
@@ -56,6 +57,7 @@
                 ajax: "{{ route('companies.index') }}",
                 columns: [
                     {"data": "name"},
+                    {"data": "areas"},
                     {"data": "action"},
                 ],
             });

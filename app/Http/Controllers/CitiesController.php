@@ -25,6 +25,11 @@ class CitiesController extends Controller
 
             return \Yajra\DataTables\DataTables::of($cities)
                 ->addColumn(
+                    'areas_count',
+                    function (City $city) {
+                        return $city->areas ? $city->areas->count() : 0;
+                    })
+                ->addColumn(
                     'action',
                     function (City $city) {
                         return '<button type="button" class="btn btn-primary edit-item" data-toggle="modal" data-target="#edit-city"
@@ -35,7 +40,7 @@ class CitiesController extends Controller
                                 حذف
                                 </button>';
                     })
-                ->rawColumns(['name', 'action'])->make(true);
+                ->rawColumns(['name','areas_count', 'action'])->make(true);
         } else {
             return view('dashboard.shipping.cities.index');
         }
@@ -58,10 +63,31 @@ class CitiesController extends Controller
     public function show(Request $request, City $city)
     {
         $search = $request->q;
-        $areas = Area::where('city_id', '=', $city->id)
-            ->when($search, function ($q) use ($search) {
+        $createCompany = $request->hasCompany && !$request->companyId;
+        $editCompany = $request->hasCompany && $request->companyId;
+
+        $companyId = $request->companyId;
+
+        $areas = Area::when($search, function ($q) use ($search) {
                 return $q->where('name', 'like', '%' . $search . '%');
             })
+
+            ->when($createCompany, function ($q) {
+                return $q->whereDoesntHave('company');
+            })
+
+
+            ->when($editCompany, function ($q) use ($companyId) {
+                return $q->where(function ($q1) use ($companyId) {
+                    return $q1->whereHas('company', function ($q2) use ($companyId) {
+                        $q2->where('id', $companyId);
+                    });
+                })->orWhere(function ($q2) {
+                    return $q2->whereDoesntHave('company');
+                });
+            })
+
+            ->where('city_id', '=', $city->id)
             ->select(['id', 'name'])
             ->paginate(10);
 

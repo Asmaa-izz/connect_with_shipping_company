@@ -43,8 +43,6 @@ Route::middleware('auth:web')->prefix('dashboard')->group(function () {
 
     Route::get('/shipping', [DashboardController::class, 'index'])->name('shipping');
 
-    Route::get('/cities/{city}/areas', [CitiesController::class, 'areas']);
-
     Route::resource('/cities', CitiesController::class)->except(['create', 'edit']);
     Route::resource('/areas', AreasController::class)->except(['create', 'edit']);
     Route::resource('/neighborhoods', NeighborhoodsController::class)->except(['create', 'edit']);

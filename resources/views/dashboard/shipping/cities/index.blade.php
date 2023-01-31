@@ -32,6 +32,7 @@
                         <thead>
                         <tr>
                             <th>الاسم</th>
+                            <th>عدد المناطق التابعة</th>
                             <th>العمليات</th>
                         </tr>
                         </thead>
@@ -120,6 +121,7 @@
                 ajax: "{{ route('cities.index') }}",
                 columns: [
                     {"data": "name"},
+                    {"data": "areas_count"},
                     {"data": "action"},
                 ],
             });

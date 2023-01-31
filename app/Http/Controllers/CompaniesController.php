@@ -25,18 +25,28 @@ class CompaniesController extends Controller
             return \Yajra\DataTables\DataTables::of($companies)
                 ->addColumn(
                     'name',
-                    function (Company $user) {
-                        return '<a href="/dashboard/companies/'.$user->id.'" class="btn btn-link">'.$user->name.'</a>';
+                    function (Company $company) {
+                        return '<a href="/dashboard/companies/'.$company->id.'" class="btn btn-link">'.$company->name.'</a>';
+                    })
+                ->addColumn(
+                    'areas',
+                    function (Company $company) {
+                        $html = '<ul>';
+                        foreach ($company->areas as $area) {
+                            $html.= '<li>'. $area->name .'</li>';
+                        }
+                        $html .= '</ul>';
+                        return $html;
                     })
                 ->addColumn(
                     'action',
-                    function (Company $user) {
-                        return '<a href="/dashboard/companies/'.$user->id.'/edit" class="btn btn-primary">تعديل </a>
-                                <button type="button" onClick="deleteProduct('.$user->id.')" class="btn btn-danger">
+                    function (Company $company) {
+                        return '<a href="/dashboard/companies/'.$company->id.'/edit" class="btn btn-primary">تعديل </a>
+                                <button type="button" onClick="deleteProduct('.$company->id.')" class="btn btn-danger">
                                 حذف
                                 </button>';
                     })
-                ->rawColumns(['name','action'])->make(true);
+                ->rawColumns(['name','areas', 'action'])->make(true);
         } else {
             return view('dashboard.companies.index');
         }
@@ -81,7 +91,8 @@ class CompaniesController extends Controller
         $this->authorize('update_company');
         return view('dashboard.companies.edit', [
             'company' => $company,
-            'cities' => City::all()
+            'cities' => City::all(),
+            'areas' => $company->areas->map->only(['id', 'name'])->toArray(),
         ]);
     }
 

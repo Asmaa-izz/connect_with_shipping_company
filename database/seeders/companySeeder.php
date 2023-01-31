@@ -9,8 +9,16 @@ class companySeeder extends Seeder
 {
     public function run()
     {
-        company::firstOrCreate(['name' =>'test'], [
-            'name' => 'test',
+        Company::firstOrCreate(['name' =>'speedaf'], [
+            'name' => 'speedaf',
+        ]);
+
+        Company::firstOrCreate(['name' =>'speedaf'], [
+            'name' => 'speedaf',
+        ]);
+
+        Company::firstOrCreate(['name' =>'speedaf'], [
+            'name' => 'speedaf',
         ]);
     }
 }

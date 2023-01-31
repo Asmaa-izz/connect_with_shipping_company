@@ -29,6 +29,7 @@
                         <thead>
                         <tr>
                             <th>الاسم</th>
+                            <th>عدد الطلبات المدخلة</th>
                             <th>العمليات</th>
                         </tr>
                         </thead>
@@ -56,6 +57,7 @@
                 ajax: "{{ route('employees.index') }}",
                 columns: [
                     {"data": "name"},
+                    {"data": "orders_count"},
                     {"data": "action"},
                 ],
             });

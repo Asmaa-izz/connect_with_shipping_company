@@ -90,7 +90,7 @@
             let city = $(this).val();
             $('#area').select2({
                 ajax: {
-                    url: `/dashboard/cities/${city}/areas`,
+                    url: `/dashboard/cities/${city}?hasCompany=true`,
                     dataType: 'json',
                     data: function (params) {
                         return {
@@ -113,32 +113,5 @@
             });
         });
 
-        $(document).on("change", "#area", function () {
-            let area = $(this).val();
-            $('#neighborhood').select2({
-                ajax: {
-                    url: `/dashboard/areas/${area}`,
-                    dataType: 'json',
-                    multiple: true,
-                    data: function (params) {
-                        return {
-                            q: params.term, // search term
-                            page: params.page
-                        };
-                    },
-                    processResults: function (data) {
-                        console.log(data.data)
-                        return {
-                            results: $.map(data.data, function (item) {
-                                return {
-                                    text: item.name,
-                                    id: item.id
-                                }
-                            })
-                        };
-                    }
-                },
-            });
-        });
     </script>
 @endsection

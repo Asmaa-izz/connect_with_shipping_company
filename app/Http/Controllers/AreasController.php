@@ -15,32 +15,37 @@ class AreasController extends Controller
         if ($request->ajax()) {
             $search = $request->get('s');
 
-            $areas = Area::when($search, function ($querySearch, $search) {
-                return $querySearch->where(function ($q) use ($search) {
-                    $q->where('name', 'LIKE', '%' . $search . '%');
-                });
-            })->get();
+            $areas = Area::with('city')->whereHas('city')
+                ->when($search, function ($querySearch, $search) {
+                    return $querySearch->where(function ($q) use ($search) {
+                        $q->where('name', 'LIKE', '%' . $search . '%');
+                    });
+                })->get();
 
             return \Yajra\DataTables\DataTables::of($areas)
                 ->addColumn('city', function (Area $area) {
                     return $area->city->name;
                 })
                 ->addColumn('company', function (Area $area) {
-                    $company = $area->company->first();
-                    return  '<a href="/dashboard/companies/'.$company->id.'" class="btn btn-link">'.$company->name.'</a>';
+                    if ($area->company->first()) {
+                        $company = $area->company->first();
+                        return '<a href="/dashboard/companies/' . $company->id . '" class="btn btn-link">' . $company->name . '</a>';
+                    } else {
+                        return 'لا يوجد';
+                    }
                 })
                 ->addColumn(
                     'action',
                     function (Area $area) {
                         return '<button type="button" class="btn btn-primary edit-item" data-toggle="modal" data-target="#edit-area"
-                                    data-id="' . $area->id . '" data-name="' . $area->name . '" data-city="'.$area->city->id.'">
+                                    data-id="' . $area->id . '" data-name="' . $area->name . '" data-city="' . $area->city->id . '">
                                 تعديل
                                 </button>
                                 <button type="button" onClick="deleteItem(' . $area->id . ')" class="btn btn-danger">
                                 حذف
                                 </button>';
                     })
-                ->rawColumns(['name', 'city','company','action'])->make(true);
+                ->rawColumns(['name', 'city', 'company', 'action'])->make(true);
         } else {
             return view('dashboard.shipping.areas.index', [
                 'cities' => City::all()

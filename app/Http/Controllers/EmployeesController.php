@@ -31,6 +31,11 @@ class EmployeesController extends Controller
                         return '<a href="/dashboard/employees/'.$user->id.'" class="btn btn-link">'.$user->name.'</a>';
                     })
                 ->addColumn(
+                    'orders_count',
+                    function (User $user) {
+                        return $user->orders ? $user->orders->count() : 0;
+                    })
+                ->addColumn(
                     'action',
                     function (User $user) {
                         return '<a href="/dashboard/employees/'.$user->id.'/edit" class="btn btn-primary">تعديل </a>
@@ -38,7 +43,7 @@ class EmployeesController extends Controller
                                 حذف
                                 </button>';
                     })
-                ->rawColumns(['name','action'])->make(true);
+                ->rawColumns(['name','orders_count','action'])->make(true);
         } else {
             return view('dashboard.employees.index');
         }
@@ -76,6 +81,7 @@ class EmployeesController extends Controller
         $this->authorize('access_employee');
         return view('dashboard.employees.show', [
             'employee' => $employee,
+            'orders_count' => $employee->orders ? $employee->orders->count() : 0
         ]);
     }
 

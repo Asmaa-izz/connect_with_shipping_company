@@ -24,6 +24,9 @@
                                 <li class="list-group-item">
                                     <strong>البريد الالكتورني :</strong> <span>{{ $employee->email }}</span>
                                 </li>
+                                <li class="list-group-item">
+                                    <strong>عدد الطلبات المدخلة :</strong> <span>{{ $orders_count }}</span>
+                                </li>
                             </ul>
                         </div>
                     </div>

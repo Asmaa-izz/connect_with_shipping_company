@@ -2,6 +2,10 @@
 
 @section('title', "تعديل شركة شحن")
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('assets/libs/select2/select2.min.css') }}">
+@endsection
+
 @section('content')
 
     @component('dashboard.commonComponents.breadcrumb')
@@ -39,7 +43,25 @@
                             </div>
                         </div>
 
-{{--                            --}}
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="city" class="control-label required">المحافظة :</label>
+                                    <select class="select2 form-control" required
+                                            data-placeholder="اختر " name="city_id" id="city">
+                                        <option></option>
+                                        @foreach($cities as $city)
+                                            <option value="{{$city->id}}" {{ $company->areas->first()->city_id == $city->id ? 'selected' : null}}>{{$city->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="area" class="control-label required">المناطق المتاحة :</label>
+                                    <select class="select2 form-control" required multiple="multiple"
+                                            data-placeholder="اختر " name="areas[]" id="area">
+                                    </select>
+                                </div>
+                            </div>
 
                         <div class="row">
                             <div class="col-12">
@@ -54,4 +76,73 @@
         </div>
     </form>
 
+@endsection
+
+@section('script')
+    <script src="{{ asset('assets/libs/select2/select2.min.js') }}"></script>
+
+    <script>
+
+        let array = @json($areas);
+        array.forEach( item => {
+            let $optionArea = $("<option selected></option>").val(item.id).text(item.name);
+            $('#area').append($optionArea).trigger('change')
+        })
+
+        $('#city').select2();
+        let city = '{{ $company->areas->first()->city_id }}';
+        let companyId = '{{ $company->id }}';
+
+        $('#area').select2({
+            ajax: {
+                url: `/dashboard/cities/${city}?hasCompany=true&companyId=${companyId}`,
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        page: params.page
+                    };
+                },
+                processResults: function (data) {
+                    console.log(data.data)
+                    return {
+                        results: $.map(data.data, function (item) {
+                            return {
+                                text: item.name,
+                                id: item.id
+                            }
+                        })
+                    };
+                }
+            },
+        });
+
+        $(document).on("change", "#city", function () {
+            let city = $(this).val();
+            $('#area').select2({
+                ajax: {
+                    url: `/dashboard/cities/${city}?hasCompany=true&companyId=${companyId}`,
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                            page: params.page
+                        };
+                    },
+                    processResults: function (data) {
+                        console.log(data.data)
+                        return {
+                            results: $.map(data.data, function (item) {
+                                return {
+                                    text: item.name,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    }
+                },
+            });
+        });
+
+    </script>
 @endsection
