@@ -1,19 +1,20 @@
 @extends('dashboard.layouts.master')
 
-@section('title', "إضافة موظف جديد")
+@section('title', "تعديل طلب")
 
 @section('content')
 
     @component('dashboard.commonComponents.breadcrumb')
         @slot('li_1', "الرئيسية")
         @slot('li_1_link', "/dashboard")
-        @slot('li_2', "جميع الموظفين")
-        @slot('li_2_link', "/dashboard/employees")
-        @slot('page_now', "إضافة موظف جديد")
+        @slot('li_2', "جميع طلبات")
+        @slot('li_2_link', "/dashboard/orders")
+        @slot('page_now', "تعديل طلب")
     @endcomponent
 
-    <form action="{{ route('employees.store') }}" method="POST">
+    <form action="{{ route('orders.update', $order->id) }}" method="POST">
         @csrf
+        @method('PUT')
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -24,14 +25,14 @@
                         @endif
 
                         <div class="card-title d-flex justify-content-between align-items-center my-3">
-                            <h4>إضافة موظف جديد</h4>
+                            <h4>تعديل طلب</h4>
                         </div>
 
                         <div class="row">
-                            <div class="form-group col-md-12">ب
-                                <label for="name" class="control-label required">اسم الموظف:</label>
+                            <div class="form-group col-md-12">
+                                <label for="name" class="control-label required">اسم الطلب:</label>
                                 <input type="text" class="form-control" name="name" id="name" placeholder="أدخل الاسم"
-                                       value="{{old('name')}}" required>
+                                       value="{{ $order->name }}" required>
                                 @error('name')
                                 <small class="text-danger">{{ $message }}</small>
                                 @enderror
@@ -41,9 +42,9 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label for="email" class="control-label required">البريد الإلكتروني:</label>
-                                <input type="email" class="form-control" name="email" id="email"
+                                <input type="email" class="form-control bg-light" name="email" id="email"
                                        placeholder="أدخل البريد الإلكتروني"
-                                       value="{{old('email')}}" required>
+                                       value="{{ $order->email  }}" disabled>
                                 @error('email')
                                 <small class="text-danger">{{ $message }}</small>
                                 @enderror
@@ -52,10 +53,10 @@
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="password" class="control-label required"> كلمة المرور:</label>
+                                <label for="password">تغيير كلمة المرور:</label>
                                 <input type="password" class="form-control" name="password" id="password"
                                        placeholder="أدخل كلمة المرور"
-                                       value="{{old('password')}}" required>
+                                       value="">
                                 @error('password')
                                 <small class="text-danger">{{ $message }}</small>
                                 @enderror
@@ -65,7 +66,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary" id="button-send">
-                                    حفظ
+                                    تعديل
                                 </button>
                             </div>
                         </div>

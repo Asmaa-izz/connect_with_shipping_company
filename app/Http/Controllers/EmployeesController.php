@@ -73,12 +73,9 @@ class EmployeesController extends Controller
 
     public function show(User $employee)
     {
-        $studentInformation = StudentInformation::where('employee_id', '=', $employee->id)->count();
-
         $this->authorize('access_employee');
         return view('dashboard.employees.show', [
             'employee' => $employee,
-            'employeeـstudent_count' => $studentInformation
         ]);
     }
 

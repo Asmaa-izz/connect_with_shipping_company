@@ -31,6 +31,41 @@
                     </li>
                 @endcan
 
+                @can('shipping')
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="bx bxs-user-detail"></i>
+                            <span>الشحن</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            @can('access_city')
+                                <li><a href="{{ route('cities.index') }}">المحافظات</a></li>
+                            @endcan
+                            @can('access_area')
+                                <li><a href="{{ route('areas.index') }}">المناطق</a></li>
+                            @endcan
+                            @can('access_neighborhood')
+                                <li><a href="{{ route('neighborhoods.index') }}">الأحياء</a></li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+
+                @can('access_order')
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="bx bxs-user-detail"></i>
+                            <span>الطلبات</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="{{ route('orders.index') }}">جميع الطلبات</a></li>
+                            @can('create_order')
+                                <li><a href="{{ route('orders.create') }}">إضافة طلب جديد</a></li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+
                 @can('setting')
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">

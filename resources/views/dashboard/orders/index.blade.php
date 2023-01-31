@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.master')
 
-@section('title', "جميع الموظفين")
+@section('title', "جميع الطلبات")
 
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css')}}">
@@ -12,7 +12,7 @@
     @component('dashboard.commonComponents.breadcrumb')
         @slot('li_1', "الرئيسية")
         @slot('li_1_link', "/dashboard")
-        @slot('page_now', "جميع الموظفين")
+        @slot('page_now', "جميع الطلبات")
     @endcomponent
 
     <div class="row">
@@ -20,15 +20,20 @@
             <div class="card">
                 <div class="card-body p-3">
                     <div class="card-title d-flex justify-content-between align-items-center my-3">
-                        <h4>جميع الموظفين</h4>
-                        <a href="{{ route('employees.create') }}" class="btn btn-primary">إضافة موظف جديد</a>
+                        <h4>جميع الطلبات</h4>
+                        @can('create_order')
+                        <a href="{{ route('orders.create') }}" class="btn btn-primary">إضافة طلب جديد</a>
+                        @endcan
                     </div>
 
                     <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap"
                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
-                            <th>الاسم</th>
+                            <th>رقم الطلب</th>
+                            <th>اسم العميل</th>
+                            <th>مضيف العملية</th>
+                            <th>حالة الطلب</th>
                             <th>العمليات</th>
                         </tr>
                         </thead>
@@ -53,7 +58,7 @@
             $('#datatable').DataTable({
                 // processing: true,
                 serverSide: true,
-                ajax: "{{ route('employees.index') }}",
+                ajax: "{{ route('orders.index') }}",
                 columns: [
                     {"data": "name"},
                     {"data": "action"},
@@ -76,7 +81,7 @@
                 if (result.isConfirmed) {
                     $("div.spanner").addClass("show");
                     $("div.overlay").addClass("show");
-                    fetch(`/dashboard/employees/${id}`, {
+                    fetch(`/dashboard/orders/${id}`, {
                         headers: {
                             "Content-Type": "application/json",
                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")

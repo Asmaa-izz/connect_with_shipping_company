@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             RollAndPermissionSeeder::class,
             AdminSeeder::class,
             SettingSeeder::class,
+            ShippingSeeder::class
         ]);
     }
 }

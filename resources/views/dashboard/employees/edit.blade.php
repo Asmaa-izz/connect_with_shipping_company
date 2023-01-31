@@ -1,15 +1,15 @@
 @extends('dashboard.layouts.master')
 
-@section('title', "تعديل مدرس")
+@section('title', "تعديل موظف")
 
 @section('content')
 
     @component('dashboard.commonComponents.breadcrumb')
         @slot('li_1', "الرئيسية")
         @slot('li_1_link', "/dashboard")
-        @slot('li_2', "جميع المدرسين")
+        @slot('li_2', "جميع الموظفين")
         @slot('li_2_link', "/dashboard/employees")
-        @slot('page_now', "تعديل مدرس")
+        @slot('page_now', "تعديل موظف")
     @endcomponent
 
     <form action="{{ route('employees.update', $employee->id) }}" method="POST">
@@ -25,12 +25,12 @@
                         @endif
 
                         <div class="card-title d-flex justify-content-between align-items-center my-3">
-                            <h4>تعديل مدرس</h4>
+                            <h4>تعديل موظف</h4>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="name" class="control-label required">اسم المدرس:</label>
+                                <label for="name" class="control-label required">اسم الموظف:</label>
                                 <input type="text" class="form-control" name="name" id="name" placeholder="أدخل الاسم"
                                        value="{{ $employee->name }}" required>
                                 @error('name')

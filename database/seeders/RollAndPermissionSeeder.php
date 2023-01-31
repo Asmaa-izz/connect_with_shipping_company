@@ -23,17 +23,50 @@ class RollAndPermissionSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'roles']);
         Permission::firstOrCreate(['name' => 'access_record']);
 
+        // employee
         Permission::firstOrCreate(['name' => 'access_employee']);
         Permission::firstOrCreate(['name' => 'create_employee']);
         Permission::firstOrCreate(['name' => 'update_employee']);
         Permission::firstOrCreate(['name' => 'delete_employee']);
+
+        // shipping
+        Permission::firstOrCreate(['name' => 'shipping']);
+
+        // city
+        Permission::firstOrCreate(['name' => 'access_city']);
+        Permission::firstOrCreate(['name' => 'create_city']);
+        Permission::firstOrCreate(['name' => 'update_city']);
+        Permission::firstOrCreate(['name' => 'delete_city']);
+
+        // area
+        Permission::firstOrCreate(['name' => 'access_area']);
+        Permission::firstOrCreate(['name' => 'create_area']);
+        Permission::firstOrCreate(['name' => 'update_area']);
+        Permission::firstOrCreate(['name' => 'delete_area']);
+
+        // city
+        Permission::firstOrCreate(['name' => 'access_neighborhood']);
+        Permission::firstOrCreate(['name' => 'create_neighborhood']);
+        Permission::firstOrCreate(['name' => 'update_neighborhood']);
+        Permission::firstOrCreate(['name' => 'delete_neighborhood']);
+
+        // order
+        Permission::firstOrCreate(['name' => 'access_order']);
+        Permission::firstOrCreate(['name' => 'create_order']);
+        Permission::firstOrCreate(['name' => 'update_order']);
+        Permission::firstOrCreate(['name' => 'delete_order']);
+
+
+
 
 
         $adminPermissions = Permission::all()->pluck('name')->toArray();
         $adminRole->syncPermissions($adminPermissions);
 
 
-        $employeeRole->syncPermissions([]);
+        $employeeRole->syncPermissions([
+            'access_order', 'create_order', 'update_order', 'delete_order'
+        ]);
 
 
     }

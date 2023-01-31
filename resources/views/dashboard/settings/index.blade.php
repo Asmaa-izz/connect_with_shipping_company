@@ -11,7 +11,7 @@
     @endcomponent
 
 
-    <form action="{{ route('settings.update') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('settings.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col-12">
