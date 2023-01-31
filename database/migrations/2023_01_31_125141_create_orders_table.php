@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('employee_id')->constrained('users')->onDelete('cascade');
 
+            $table->string('status');
             $table->string('number');
 
             $table->string('customer_name');

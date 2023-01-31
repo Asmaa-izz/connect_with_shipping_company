@@ -59,8 +59,8 @@
                     <form id="form-create" action="{{ route('cities.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="name"  class="required form-label">اسم المحافظة </label>
-                            <input type="text" class="form-control" id="name" name="name">
+                            <label for="name" class="control-label required">اسم المحافظة </label>
+                            <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                     </form>
                 </div>
@@ -89,8 +89,8 @@
                     @method('put')
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="name_edit"  class="required form-label">اسم المحافظة </label>
-                            <input type="text" class="form-control" name="name" id="name_edit">
+                            <label for="name_edit" class="control-label required">اسم المحافظة </label>
+                            <input type="text" class="form-control" name="name" id="name_edit" required>
                         </div>
                     </div>
                     <div class="modal-footer">

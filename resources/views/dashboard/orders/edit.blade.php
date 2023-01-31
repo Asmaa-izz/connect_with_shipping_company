@@ -146,7 +146,7 @@
 
         let $optionArea = $("<option selected></option>").val('{{ $order->area_id }}').text('{{ $order->area->name }}');
         let $optionNeighborhood = $("<option selected></option>").val('{{ $order->neighborhood_id }}').text('{{ $order->neighborhood->name }}');
-
+        $('#city').select2();
         $('#area').select2({
             ajax: {
                 url: '/dashboard/cities/'+{{$order->area_id}},

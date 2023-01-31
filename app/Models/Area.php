@@ -22,4 +22,9 @@ class Area extends Model
     {
         return $this->hasMany(Neighborhood::class);
     }
+
+    public function company()
+    {
+        return $this->belongsToMany(Company::class, 'area_company');
+    }
 }

@@ -51,6 +51,21 @@
                     </li>
                 @endcan
 
+                @can('access_company')
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="bx bxs-user-detail"></i>
+                            <span>شركات الشحن</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="{{ route('companies.index') }}">جميع شركات الشحن</a></li>
+                            @can('create_company')
+                                <li><a href="{{ route('companies.create') }}">إضافة شركة شحن جديد</a></li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+
                 @can('access_order')
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">

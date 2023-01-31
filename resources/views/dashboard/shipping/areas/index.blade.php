@@ -5,7 +5,9 @@
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/css/loading-spinner-overlay.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/libs/select2/select2.min.css') }}">
 @endsection
+
 
 @section('content')
 
@@ -33,6 +35,7 @@
                         <tr>
                             <th>الاسم</th>
                             <th>المحافظة</th>
+                            <th>شركة الشحن</th>
                             <th>العمليات</th>
                         </tr>
                         </thead>
@@ -60,14 +63,15 @@
                     <form id="form-create" action="{{ route('areas.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="name"  class="required form-label">اسم المنطقة: </label>
-                            <input type="text" class="form-control" id="name" name="name">
+                            <label for="name" class="control-label required">اسم المنطقة: </label>
+                            <input type="text" class="form-control" id="name" name="name" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="city" class="required">المحافظة :</label>
+                            <label for="city" class="control-label required">المحافظة :</label>
                             <select class="select2 form-control" required
-                                    data-placeholder="اختر المرشد" name="city" id="city">
+                                    data-placeholder="اختر " name="city" id="city">
+                                <option></option>
                                 @foreach($cities as $city)
                                     <option value="{{$city->id}}">{{$city->name}}</option>
                                 @endforeach
@@ -101,8 +105,8 @@
                     @method('put')
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="name_edit"  class="required form-label">اسم المنطقة </label>
-                            <input type="text" class="form-control" name="name" id="name_edit">
+                            <label for="name_edit" class="control-label required">اسم المنطقة </label>
+                            <input type="text" class="form-control" name="name" id="name_edit" required>
                         </div>
 
                         <div class="mb-3">
@@ -133,6 +137,7 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('assets/libs/select2/select2.min.js') }}"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -143,6 +148,7 @@
                 columns: [
                     {"data": "name"},
                     {"data": "city"},
+                    {"data": "company"},
                     {"data": "action"},
                 ],
             });
@@ -176,6 +182,9 @@
             })
 
         }
+
+        $('#city').select2();
+        $('#city_edit').select2();
 
         $(document).on("click", ".edit-item", function () {
             let areaId = $(this).data('id');

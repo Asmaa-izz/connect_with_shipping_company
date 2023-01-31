@@ -15,7 +15,7 @@ class NeighborhoodsController extends Controller
         if ($request->ajax()) {
             $search = $request->get('s');
 
-            $neighborhoods = Neighborhood::when($search, function ($querySearch, $search) {
+            $neighborhoods = Neighborhood::with('area')->whereHas('area')->when($search, function ($querySearch, $search) {
                 return $querySearch->where(function ($q) use ($search) {
                     $q->where('name', 'LIKE', '%' . $search . '%');
                 });

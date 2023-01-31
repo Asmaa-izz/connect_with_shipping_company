@@ -80,7 +80,7 @@
                                 <label for="city" class="control-label required">المحافظة :</label>
                                 <select class="select2 form-control" required
                                         data-placeholder="اختر " name="city_id" id="city">
-                                    <option selected>اختر المحافظة</option>
+                                    <option></option>
                                     @foreach($cities as $city)
                                         <option value="{{$city->id}}">{{$city->name}}</option>
                                     @endforeach
@@ -143,6 +143,7 @@
     <script src="{{ asset('assets/libs/select2/select2.min.js') }}"></script>
 
     <script>
+        $('#city').select2();
         $(document).on("change", "#city", function () {
             let city = $(this).val();
             $('#area').select2({

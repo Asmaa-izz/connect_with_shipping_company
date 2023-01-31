@@ -56,6 +56,12 @@ class RollAndPermissionSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'update_order']);
         Permission::firstOrCreate(['name' => 'delete_order']);
 
+        // company
+        Permission::firstOrCreate(['name' => 'access_company']);
+        Permission::firstOrCreate(['name' => 'create_company']);
+        Permission::firstOrCreate(['name' => 'update_company']);
+        Permission::firstOrCreate(['name' => 'delete_company']);
+
 
 
 

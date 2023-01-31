@@ -5,11 +5,7 @@
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/css/loading-spinner-overlay.css')}}">
-
     <link rel="stylesheet" href="{{ asset('assets/libs/select2/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/js/pages/ecommerce-select2.init.js') }}">
-
-
 @endsection
 
 @section('content')
@@ -74,7 +70,7 @@
                             <label for="city" class="required">المحافظة :</label>
                             <select class="select2 form-control" required
                                     data-placeholder="اختر " name="city" id="city">
-                                <option selected>اختر المحافظة</option>
+                                <option></option>
                                 @foreach($cities as $city)
                                     <option value="{{$city->id}}">{{$city->name}}</option>
                                 @endforeach
@@ -84,7 +80,7 @@
                         <div class="mb-3">
                             <label for="area" class="required">المنطقة :</label>
                             <select class="select2 form-control" required
-                                    data-placeholder="اختر " name="area" id="area-select2">
+                                    data-placeholder="اختر " name="area" id="area">
                             </select>
                         </div>
                     </form>
@@ -153,7 +149,6 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script src="{{ asset('assets/libs/select2/select2.min.js') }}"></script>
 
 
@@ -200,6 +195,12 @@
 
         }
 
+        $('#city').select2();
+        $('#city_edit').select2();
+
+        $('#area').select2();
+        $('#area_edit').select2();
+
         $(document).on("click", ".edit-item", function () {
             let neighborhoodId = $(this).data('id');
             let neighborhoodName = $(this).data('name');
@@ -214,7 +215,7 @@
 
         $(document).on("change", "#city", function () {
             let city = $(this).val();
-            $('#area-select2').select2({
+            $('#area').select2({
                 ajax: {
                     url: `/dashboard/cities/${city}`,
                     dataType: 'json',

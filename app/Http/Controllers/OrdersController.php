@@ -43,7 +43,7 @@ class OrdersController extends Controller
                 ->addColumn(
                     'status',
                     function (Order $order) {
-                        return 'done';
+                        return $order->status;
                     })
                 ->addColumn(
                     'action',
@@ -85,6 +85,7 @@ class OrdersController extends Controller
 
         $order = new Order();
         $order->employee_id = Auth::id();
+        $order->status ='جديد';
         $order->number = $request->number;
         $order->customer_name = $request->customer_name;
         $order->customer_phone = $request->customer_phone;

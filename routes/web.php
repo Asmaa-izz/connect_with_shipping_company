@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AreasController;
 use App\Http\Controllers\CitiesController;
+use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\NeighborhoodsController;
@@ -38,8 +39,12 @@ Route::middleware('auth:web')->prefix('dashboard')->group(function () {
 
     Route::resource('/employees', EmployeesController::class);
     Route::resource('/orders', OrdersController::class);
+    Route::resource('/companies', CompaniesController::class);
 
     Route::get('/shipping', [DashboardController::class, 'index'])->name('shipping');
+
+    Route::get('/cities/{city}/areas', [CitiesController::class, 'areas']);
+
     Route::resource('/cities', CitiesController::class)->except(['create', 'edit']);
     Route::resource('/areas', AreasController::class)->except(['create', 'edit']);
     Route::resource('/neighborhoods', NeighborhoodsController::class)->except(['create', 'edit']);

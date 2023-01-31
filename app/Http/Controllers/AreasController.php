@@ -25,6 +25,10 @@ class AreasController extends Controller
                 ->addColumn('city', function (Area $area) {
                     return $area->city->name;
                 })
+                ->addColumn('company', function (Area $area) {
+                    $company = $area->company->first();
+                    return  '<a href="/dashboard/companies/'.$company->id.'" class="btn btn-link">'.$company->name.'</a>';
+                })
                 ->addColumn(
                     'action',
                     function (Area $area) {
@@ -36,7 +40,7 @@ class AreasController extends Controller
                                 حذف
                                 </button>';
                     })
-                ->rawColumns(['name', 'city','action'])->make(true);
+                ->rawColumns(['name', 'city','company','action'])->make(true);
         } else {
             return view('dashboard.shipping.areas.index', [
                 'cities' => City::all()

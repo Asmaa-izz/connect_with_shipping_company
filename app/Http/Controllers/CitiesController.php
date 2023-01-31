@@ -68,6 +68,20 @@ class CitiesController extends Controller
         return response()->json($areas);
     }
 
+    public function areas(Request $request, City $city)
+    {
+        $search = $request->q;
+        $areas = Area::where('city_id', '=', $city->id)
+            ->whereDoesntHave('company')
+            ->when($search, function ($q) use ($search) {
+                return $q->where('name', 'like', '%' . $search . '%');
+            })
+            ->select(['id', 'name'])
+            ->paginate(10);
+
+        return response()->json($areas);
+    }
+
 
     public function update(Request $request, City $city)
     {
