@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\company;
+use App\Models\Company;
 use App\Models\Order;
 use App\Models\User;
 
@@ -14,7 +14,7 @@ class DashboardController extends Controller
             'employees_count' => User::whereHas('roles', function ($query) {
                 return $query->where('name', '=', 'employee');
             })->count(),
-            'companies_count' => company::count(),
+            'companies_count' => Company::count(),
         ]);
     }
 }

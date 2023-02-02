@@ -49,16 +49,16 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <label for="role" class="control-label required">الصلاحية:</label>
-                                <input type="text" class="form-control bg-light" name="role" id="role"
-                                       value="{{ $user->roles->first()->name  }}" disabled>
-                                @error('role')
-                                <small class="text-danger">{{ $message }}</small>
-                                @enderror
-                            </div>
-                        </div>
+{{--                        <div class="row">--}}
+{{--                            <div class="form-group col-md-12">--}}
+{{--                                <label for="role" class="control-label required">الصلاحية:</label>--}}
+{{--                                <input type="text" class="form-control bg-light" name="role" id="role"--}}
+{{--                                       value="{{ $user->roles->first()->name  }}" disabled>--}}
+{{--                                @error('role')--}}
+{{--                                <small class="text-danger">{{ $message }}</small>--}}
+{{--                                @enderror--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
                         <div class="row">
                             <div class="form-group col-md-12">

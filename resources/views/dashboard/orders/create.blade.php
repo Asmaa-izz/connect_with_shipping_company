@@ -35,7 +35,7 @@
                             <div class="form-group col-md-6">
                                 <label for="number" class="control-label required">رقم الطلب:</label>
                                 <input type="text" class="form-control" name="number" id="number"
-                                       placeholder="أدخل رقم الطلب"
+                                       placeholder="أدخل رقم الطلب" disabled
                                        value="{{old('number') ?? $number}}" required>
                                 @error('number')
                                 <small class="text-danger">{{ $message }}</small>

@@ -50,7 +50,7 @@
                                             data-placeholder="اختر " name="city_id" id="city">
                                         <option></option>
                                         @foreach($cities as $city)
-                                            <option value="{{$city->id}}" {{ $company->areas->first()->city_id == $city->id ? 'selected' : null}}>{{$city->name}}</option>
+                                            <option value="{{$city->id}}" {{ $cityId == $city->id ? 'selected' : null}}>{{$city->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -90,7 +90,7 @@
         })
 
         $('#city').select2();
-        let city = '{{ $company->areas->first()->city_id }}';
+        let city = '{{ $cityId }}';
         let companyId = '{{ $company->id }}';
 
         $('#area').select2({

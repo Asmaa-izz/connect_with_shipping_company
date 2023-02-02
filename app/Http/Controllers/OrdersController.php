@@ -20,11 +20,13 @@ class OrdersController extends Controller
             $orders = Order::with('employee')
                 ->when($search, function ($querySearch, $search) {
                     return $querySearch
-                        ->whereHas('employee', function ($q) use ($search) {
-                            return $q->where('name', 'LIKE', '%' . $search . '%');
-                        })
-                        ->where(function ($q) use ($search) {
-                            $q->where('customer_name', 'LIKE', '%' . $search . '%')->where('number', 'LIKE', '%' . $search . '%');
+                        ->Where(function ($q) use ($search) {
+                            $q->where('customer_name', 'LIKE', '%' . $search . '%')
+                                ->where('number', 'LIKE', '%' . $search . '%');
+                        })->orWhere(function ($q) use ($search) {
+                            $q->whereHas('employee', function ($q2) use ($search) {
+                                return $q2->where('name', 'LIKE', '%' . $search . '%');
+                            });
                         });
                 })->get();
 
@@ -64,10 +66,19 @@ class OrdersController extends Controller
     {
         $this->authorize('create_order');
         return view('dashboard.orders.create', [
-            'number' => random_int(100000, 999999),
+            'number' => $this->generateBarcodeNumber(),
             'cities' => City::all(),
         ]);
     }
+
+    function generateBarcodeNumber() {
+        $number = mt_rand(1000000000, 9999999999);
+        if (Order::where('number', '=', $number)->exists()) {
+            return $this->generateBarcodeNumber();
+        }
+        return $number;
+    }
+
 
     public function store(Request $request)
     {

@@ -93,6 +93,7 @@ class CompaniesController extends Controller
             'company' => $company,
             'cities' => City::all(),
             'areas' => $company->areas->map->only(['id', 'name'])->toArray(),
+            'cityId' => $company->areas->first() ? $company->areas->first()->city_id : 0,
         ]);
     }
 

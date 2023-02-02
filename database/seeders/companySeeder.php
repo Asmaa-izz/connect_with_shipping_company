@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\company;
+use App\Models\Company;
 use Illuminate\Database\Seeder;
 
 class companySeeder extends Seeder
@@ -13,12 +13,12 @@ class companySeeder extends Seeder
             'name' => 'speedaf',
         ]);
 
-        Company::firstOrCreate(['name' =>'speedaf'], [
-            'name' => 'speedaf',
+        Company::firstOrCreate(['name' =>'J&T'], [
+            'name' => 'J&T',
         ]);
 
-        Company::firstOrCreate(['name' =>'speedaf'], [
-            'name' => 'speedaf',
+        Company::firstOrCreate(['name' =>'Mylerz'], [
+            'name' => 'Mylerz',
         ]);
     }
 }
